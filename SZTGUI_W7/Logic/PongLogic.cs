@@ -29,10 +29,10 @@ namespace SZTGUI_W7.Logic
             switch (moveEnum)
             {
                 case MoveEnum.left:
-                    Movement -= 10;
+                    Barrier.Move(-10);
                     break;
                 case MoveEnum.right:
-                    Movement += 10;
+                    Barrier.Move(10);
                     break;
                 default:
                     break;
@@ -42,17 +42,24 @@ namespace SZTGUI_W7.Logic
 
         public void TimeStep()
         {
+            //bool inside = Orb.Move(new System.Drawing.Size((int)area.Width, (int)area.Height));
+
+            //if (!inside)
+            //{
+            //    Orb.Rebound(area);
+            //}
+
             Rect wallRect = new Rect(area.Width / 2, area.Height * 0.8, 300, 50);
             Rect ballRect = new Rect(area.Width / 2, area.Height / 2, 30, 30);
 
-            if (wallRect.IntersectsWith(ballRect))
-            {
-                Orb.Move(area, true);
-            }
-            else
-            {
-                Orb.Move(area, false);
-            }
+            //if (wallRect.IntersectsWith(ballRect))
+            //{
+            //    Orb.Move(area, true);
+            //}
+            //else
+            //{
+            //    Orb.Move(area, false);
+            //}
         }
     }
 }

@@ -4,93 +4,47 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Media;
 
 namespace SZTGUI_W7.Logic
 {
-    public class Ball
+    public class Ball : GameItem
     {
-        public System.Drawing.Point Center { get; set; }
-        public Vector Speed { get; set; }
+        private int centerX;
+        private int centerY;
+        private int radius;
 
-        static Random r = new Random();
+        private int speedX;
+        private int speedY;
 
-        private int Randomizer(int min, int max)
+        public Ball(int centerX, int centerY, int radius, int speedX, int speedY)
         {
-            int rnd = 0;
-            do
-            {
-                rnd = r.Next(min, max + 1);
-            } while (rnd == 0);
-            return rnd;
+            this.centerX = centerX;
+            this.centerY = centerY;
+            this.radius = radius;
+            this.speedX = speedX;
+            this.speedY = speedY;
         }
 
-        public Ball(Size area)
+        public void Move(int X, int Y)
         {
-            int vel = r.Next(0, 4); //0..3
-            switch (vel)
-            {
-                case 0:
-                    //fent
-                    Center = new System.Drawing.Point
-                        (r.Next(25, (int)area.Width - 25), 25);
-
-                    Speed = new Vector(Randomizer(-20, 20),
-                        Randomizer(1, 6));
-                    break;
-                case 1:
-                    //lent
-                    Center = new System.Drawing.Point(r.Next(25, (int)area.Width - 25)
-                        , (int)area.Height - 25);
-                    Speed = new Vector(Randomizer(-20, 20), Randomizer(-20, -1));
-                    break;
-                case 2:
-                    //bal
-                    Center = new System.Drawing.Point(25, r.Next(25,
-                        (int)area.Height - 25));
-                    Speed = new Vector(Randomizer(0, 20), Randomizer(-20, 20));
-                    break;
-                case 3:
-                    //jobb
-                    Center = new System.Drawing.Point((int)area.Width - 25, r.Next(25, (int)area.Height - 25));
-                    Speed = new Vector(Randomizer(-20, -1), Randomizer(-20, 6));
-                    break;
-                default:
-                    break;
-            }
+            speedX = X;
+            speedY = Y;
+            centerX += speedX;
+            centerY += speedY;
         }
 
-        public bool Move(System.Drawing.Size area, bool intersect = false)
+        public void Collision()
         {
-            //hova kerülne a lépéskor az aszteroida
-            System.Drawing.Point newCenter =
-                new System.Drawing.Point(Center.X + (int)Speed.X,
-                Center.Y + (int)Speed.Y);
-            if (newCenter.X >= 0 &&
-                newCenter.X <= area.Width &&
-                newCenter.Y >= 0 &&
-                newCenter.Y <= area.Height
-                )
-            {
-                //pályán belül van az aszteroida
+            speedX *= -1;
+            speedY *= -1;
+        }
 
-                //Találkozik-e a fallal
-                if (intersect)
-                {
-                    Center = new System.Drawing.Point(
-                        (Center.X + (int)Speed.X) * -1,
-                        (Center.Y + (int)Speed.Y) * -1
-                        );
-                }
-                else
-                {
-                    Center = newCenter;
-                }
-                return true;
-            }
-            else
+        public override Geometry Area
+        {
+            get
             {
-                //épp elhagyta a pályát
-                return false;
+                return new EllipseGeometry(new Point(centerX, centerY), radius, radius);
             }
         }
     }
