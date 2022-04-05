@@ -12,6 +12,8 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using SZTGUI_W7.Controller;
+using SZTGUI_W7.Logic;
 
 namespace SZTGUI_W7
 {
@@ -20,14 +22,31 @@ namespace SZTGUI_W7
     /// </summary>
     public partial class MainWindow : Window
     {
+        GameController controller;
         public MainWindow()
         {
             InitializeComponent();
+            PongLogic pongLogic = new PongLogic();
+            display.SetupModel(pongLogic);
+            controller = new GameController(pongLogic);
         }
 
         private void Window_SizeChanged(object sender, SizeChangedEventArgs e)
         {
             display.Resize(grid.ActualWidth, grid.ActualHeight);
+            display.InvalidateVisual();
+        }
+
+        private void Window_KeyDown(object sender, KeyEventArgs e)
+        {
+            controller.KeyPressed(e.Key);
+            display.InvalidateVisual();
+        }
+
+        private void Window_Loaded(object sender, RoutedEventArgs e)
+        {
+            display.Resize(grid.ActualWidth, grid.ActualHeight);
+            display.InvalidateVisual();
         }
     }
 }

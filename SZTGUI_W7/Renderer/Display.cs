@@ -5,17 +5,27 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Media;
+using SZTGUI_W7.Logic;
 
-namespace SZTGUI_W7
+namespace SZTGUI_W7.Renderer
 {
     public class Display : FrameworkElement
     {
+        IGameModel model;
         double areaWidth;
         double areaHeight;
+        public void SetupModel(IGameModel model)
+        {
+            this.model = model;
+            model.Position=areaWidth / 2;
+        }
         protected override void OnRender(DrawingContext drawingContext)
         {
             base.OnRender(drawingContext);
-            drawingContext.DrawRectangle(Brushes.Red, null, new Rect(areaWidth / 2, areaHeight - areaHeight/20, areaWidth / 7, areaHeight /20 ));
+            if (model != null && areaWidth > 50 && areaHeight > 50)
+            {
+                drawingContext.DrawRectangle(Brushes.Red, null, new Rect(model.Position, areaHeight - areaHeight / 20, areaWidth / 7, areaHeight / 20));
+            }
         }
         public void Resize(double width, double height)
         {
