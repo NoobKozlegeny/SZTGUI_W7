@@ -23,11 +23,12 @@ namespace SZTGUI_W7
     public partial class MainWindow : Window
     {
         GameController controller;
+        PongLogic pongLogic;
         public MainWindow()
         {
             InitializeComponent();
-            PongLogic pongLogic = new PongLogic();
-            display.SetupModel(pongLogic);
+            pongLogic = new PongLogic();
+            //display.SetupModel(pongLogic);
             controller = new GameController(pongLogic);
         }
 
@@ -46,6 +47,7 @@ namespace SZTGUI_W7
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
             display.Resize(grid.ActualWidth, grid.ActualHeight);
+            display.SetupModel(pongLogic);
             display.InvalidateVisual();
         }
     }
