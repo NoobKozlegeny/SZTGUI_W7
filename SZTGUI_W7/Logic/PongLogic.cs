@@ -26,17 +26,21 @@ namespace SZTGUI_W7.Logic
 
         public void Move(MoveEnum moveEnum)
         {
-            switch (moveEnum)
+            if (Position>=0)
             {
-                case MoveEnum.left:
-                    Position -= 10;
-                    break;
-                case MoveEnum.right:
-                    Position += 10;
-                    break;
-                default:
-                    break;
+                switch (moveEnum)
+                {
+                    case MoveEnum.left:
+                        Position -= 200;
+                        break;
+                    case MoveEnum.right:
+                        Position += 10;
+                        break;
+                    default:
+                        break;
+                }
             }
+            
             Changed?.Invoke(this, null);
         }
 
