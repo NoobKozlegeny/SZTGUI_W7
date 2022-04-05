@@ -7,9 +7,9 @@ using System.Windows;
 
 namespace SZTGUI_W7.Logic
 {
-    public class PongLogic : IGameModel
+    public class PongLogic : IGameModel, IGameControl
     {
-        public double Movement { get; set; }
+        public double Position { get; set; }
         public Ball Orb { get; set; }
         public Wall Barrier { get; set; }
 
@@ -17,22 +17,22 @@ namespace SZTGUI_W7.Logic
 
         System.Drawing.Size area;
 
-        public void SetupLogic(double movement, Ball orb, Wall barrier)
+        public void SetupLogic(double position, Ball orb, Wall barrier)
         {
-            Movement = movement;
+            Position = position;
             Orb = orb;
             Barrier = barrier;
         }
 
-        public void Control(MoveEnum moveEnum)
+        public void Move(MoveEnum moveEnum)
         {
             switch (moveEnum)
             {
                 case MoveEnum.left:
-                    Movement -= 10;
+                    Position -= 10;
                     break;
                 case MoveEnum.right:
-                    Movement += 10;
+                    Position += 10;
                     break;
                 default:
                     break;
