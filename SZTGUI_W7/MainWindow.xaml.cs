@@ -24,5 +24,10 @@ namespace SZTGUI_W7
         {
             InitializeComponent();
         }
+
+        private void Window_SizeChanged(object sender, SizeChangedEventArgs e)
+        {
+            display.Resize(grid.ActualWidth, grid.ActualHeight);
+        }
     }
 }
